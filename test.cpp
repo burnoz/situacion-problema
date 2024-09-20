@@ -152,7 +152,13 @@ int main(){
 
     vector<int> values(5);
 
-    string orden = "Abr 23 18:9:2 R:The Trendy Cafe O:Queso Fundido(142)";
+    string orden = "Ago 12 15:20:30";
+
+    string test;
+
+    getline(cin, test);
+
+    cout << test << endl;
 
     cout << get_value(orden) << endl;
 
