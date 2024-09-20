@@ -1,6 +1,3 @@
-#include <fstream> 
-#include <iostream>
-
 #include "modules/sort_search.h"
 
 int main(int argc, char* argv[]){
