@@ -1,6 +1,5 @@
 #include <fstream> 
 #include <iostream>
-#include <Windows.h>
 
 #include "modules/sort_search.h"
 
@@ -56,8 +55,6 @@ int main(int argc, char* argv[]){
     cout << "> ";
 
     cin >> option;
-
-    Sleep(1000);
 
     switch(option){
     case 1:
