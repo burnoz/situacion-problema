@@ -75,7 +75,7 @@ int main(int argc, char* argv[]){
         getline(cin >> ws, start_date);
         start_date_value = get_value(start_date);
 
-        cout << "Limite inferior: ";
+        cout << "Limite superior: ";
         getline(cin >> ws, end_date);
         end_date_value = get_value(end_date);
 
