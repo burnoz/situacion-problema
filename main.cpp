@@ -32,6 +32,7 @@ int main(int argc, char* argv[]){
     mergeSort(orders, 0, i - 1);
 
     // Imprime las primeras 10 ordenes en la terminal
+    cout << "Primeras 10 ordenes" << endl;
     for(int j = 0; j < 10; j++){
         cout << orders[j] << endl;
     }
