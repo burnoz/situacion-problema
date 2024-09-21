@@ -76,17 +76,22 @@ void mergeSort(vector<string>& A, int l, int r) {
 
 
 void single_search(string date, int date_value, vector<string> orders, int n){
+    // Archivo en el que se almacenan los resultados de busqueda
     ofstream search_results("outputs/search_results.txt");
 
     vector<string> results;
     int i, j;
 
+    // Pasa por todos los elementos del vector de ordenes
     for(i = 0; i < n; i++){
+        // Busca coincidencias exactas con la fecha dada
         if(get_value(orders[i]) == date_value){
+            // Guarda las coincidencias en el vector de resultados
             results.push_back(orders[i]);
         }
     }
 
+    // Imprime los resultados de la busqueda y los escribe en el archivo de salida
     cout << "Resultados de la busqueda:" << endl;
     search_results << "Resultados de la busqueda \"" << date << "\"" << endl;
 
@@ -106,17 +111,22 @@ void single_search(string date, int date_value, vector<string> orders, int n){
 
 
 void range_search(string lower_date, string upper_date, int lower_date_value, int upper_date_value, vector<string> orders, int n){
+    // Archivo en el que se almacenan los resultados de busqueda
     ofstream search_results("outputs/search_results.txt");
 
     vector<string> results;
     int i, j;
 
+    // Pasa por todos los elementos del vector de ordenes
     for(i = 0; i < n; i++){
+        // Verifica si la orden está dentro del rango de fechas
         if(get_value(orders[i]) >= lower_date_value && get_value(orders[i]) <= upper_date_value){
+            // Guarda las ordenes dentro del rango en el vector de resultados
             results.push_back(orders[i]);
         }
     }
 
+    // Imprime los resultados de la busqueda y los escribe en el archivo de salida
     cout << "Resultados de la busqueda:" << endl;
     search_results << "Resultados de la busqueda \"" << lower_date << " - " << upper_date << "\"" << endl;
 
