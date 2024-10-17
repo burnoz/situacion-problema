@@ -7,12 +7,95 @@
 
 using namespace std;
 
+// Funcion para obtener el nombre del restaurante de una orden
+string get_restaurant(string order){
+    string restaurant;
+    int restaurant_start_index = order.find("R:");
+    int restaurant_end_index = order.find(" O:");
 
-// class node: un valor y un puntero a otro nodo
+    restaurant = order.substr(restaurant_start_index + 2, restaurant_end_index - restaurant_start_index - 2);
+    
+    return restaurant;
+}
+
+// Funcion para asignar un valor a cada orden de acuerdo a su fecha y hora
+int get_value(string order){
+    string months[12] = {"ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"};
+    string aux;
+
+    int month_end_index = order.find(" ");
+    string month = order.substr(0, month_end_index);
+
+    aux = order.substr(month_end_index + 1);
+
+    int day_end_index = aux.find(" ");
+    string day = aux.substr(0, day_end_index);
+
+    aux = aux.substr(day_end_index + 1);
+    
+    int time_end_index = aux.find(" ");
+    string time = aux.substr(0, time_end_index);
+
+    int value = 0;
+
+	// Pasa por todos los elementos del arreglo
+	for(int i = 0; i < 12; i++){
+		if(month == months[i]){
+			// Indice del elemento encontrado
+			value += (i + 1) * 100000000;
+            break;
+		}
+	}
+
+    value += stoi(day) * 1000000;
+
+    int hour_end_index = aux.find(":");
+    string hour = time.substr(0, hour_end_index);
+
+    aux = time.substr(hour_end_index + 1);
+
+    int minute_end_index = aux.find(":");
+    string minute = aux.substr(0, minute_end_index);
+
+    aux = aux.substr(minute_end_index + 1);
+
+    int second_end_index = aux.find(" ");
+    string second = aux.substr(0, second_end_index);
+
+    value += stoi(hour) * 10000;
+    value += stoi(minute) * 100;
+    value += stoi(second);
+
+    return value;
+}
+
 template <class T>
 class Node
 {	public:
 
+		//	Valores almacenados
+		T base; 			
+		T value; 			
+		T restaurant; 			
+
+		Node<T> *prev; 		//	dir del nodo anterior
+		Node<T> *next;		//	dir del nodo siguiente
+		
+		Node(T base){	
+			this->base = base;
+			this->value = get_value(base);
+			this->restaurant = get_restaurant(base);
+
+			this->prev = NULL;
+			this->next = NULL;
+		}
+};
+
+
+// class node: un valor y un puntero a otro nodo
+template <class T>
+class Node{	
+	public:
 		//	valor almacenado
 		T value; 			// <--- Nota que es de tipo T
 
@@ -104,10 +187,12 @@ void List<T>::insertFirst(T newValue)
 	node->next = aux; 		//	El siguiente del nodo nuevo sera
 	first = node;			//	El primero ahora sera el nuevo nodo
 
-	if (size == 0)
-	{	last = node;   }	//	Si la lista esta vacia, el nodo nuevo es tambien el ultimo
-	else
-	{	aux->prev = node; 	// first; Si no, el anterior al viejo first (aux) es el nuevo
+	if (size == 0){	
+		last = node;		//	Si la lista esta vacia, el nodo nuevo es tambien el ultimo   
+	}
+
+	else{	
+		aux->prev = node; 	// first; Si no, el anterior al viejo first (aux) es el nuevo
 	}
 
 	//	Mantener la lista circular
@@ -226,18 +311,18 @@ T Stack<T>::pop( )
 //	pivot es el ultimo de la particion
 //	en este ejemplo, aux es un int, porque T es int
 template<class T>
-Node<T>* partition( List<T> datos, Node<T> *L, Node<T> *R )
-{	Node<T> *j = L; 	
+Node<T>* partition( List<T> datos, Node<T> *L, Node<T> *R ){	
+	Node<T> *j = L; 	
 	Node<T> *i = NULL; 
 	Node<T> *pivot = R; 
 	
-	T aux = 0; 			 
+	T aux = "";
 	
 	//	Compara con pivot e intercambios
-	while ( j != R)
-	{	//cout << "\tComaparo " <<  j->value << " y " << pivot->value << endl;  		
+	while (j != R){	
+		// cout << "\tComaparo " <<  j->value << " y " << pivot->value << endl;  		
 		
-		if ( j->value < pivot->value )
+		if (j->value < pivot->value)
 		{	if (i == NULL)
 			{	i = L; }
 			else
@@ -267,8 +352,8 @@ Node<T>* partition( List<T> datos, Node<T> *L, Node<T> *R )
 //	quicksort
 //	Reordena por particiones iterativamente
 template<class T>
-void quickSort( List<T> datos )
-{	Stack< Node<int>* > stack;
+void quickSort(List<T> datos){	
+	Stack<Node<string>*> stack;
 
 	Node<T> *L =   datos.getFirst();
 	Node<T> *R =   datos.getLast();
@@ -286,41 +371,38 @@ void quickSort( List<T> datos )
 	//	En cada iteracion un par L y R salen de la stak
 	// 	La particion de L a R es reordenada 
 	//	Y segun donde quede el pivote, agrega nuevos pares de L y R a la stack
-	while ( stack.isEmpty() == false )
-	{	R = stack.pop();
+	while (stack.isEmpty() == false){	
+		R = stack.pop();
 		L = stack.pop();
 
 		pivot = partition(datos, L, R);
 
-		if (pivot != L && pivot->next != L)
-		{	stack.push( L );
-			stack.push( pivot->prev );
+		if (pivot != L && pivot->next != L){	
+			stack.push(L);
+			stack.push(pivot->prev);
 		}
 
-		if (pivot != R && pivot->prev != R)
-		{	stack.push( pivot->next );
+		if (pivot != R && pivot->prev != R){	
+			stack.push( pivot->next );
 			stack.push( R );
 		}
 
 		datos.showList();   // <---- Descomenta para ver el paso a paso
 	}
-
-	
 }
 
 
 
 int main(int argc, char* argv[]) 
-{	List<int> datos;
+{	List<string> datos;
 
-	datos.insertLast(6); 	//dList.showList(); 	
-	datos.insertLast(5); 	//dList.showList(); 	
-	datos.insertLast(3); 	//dList.showList(); 	
-	datos.insertLast(1); 	//dList.showList(); 	
-	datos.insertLast(8); 	//dList.showList(); 	
-	datos.insertLast(7); 	//dList.showList(); 	
-	datos.insertLast(2); 	//dList.showList(); 	
-	datos.insertLast(4); 	datos.showList(); 	
+	datos.insertLast("La Terraza del Mar");
+	datos.insertLast("El Barzon");
+	datos.insertLast("El Cafe de la Plaza");
+	datos.insertLast("The Rustic Spoon");
+	datos.insertLast("El Pueblo");
+	datos.insertLast("El Rinconcito Tropical");
+	datos.insertLast("Aere and Now");
 
 	cout << "Antes de ordenar " << endl;
 	datos.showList();
