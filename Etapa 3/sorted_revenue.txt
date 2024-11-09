@@ -1,0 +1,164 @@
+Lista de restaurantes por ganancias
+1- City Bistro: 80 ordenes, $23806
+2- Urban eats: 74 ordenes, $23717
+3- The Rustic Kitchen: 78 ordenes, $23675
+4- The Stylish Diner: 78 ordenes, $22784
+5- Ondina: 80 ordenes, $21659
+6- The American: 75 ordenes, $21428
+7- The Bistro Lounge: 68 ordenes, $21210
+8- El Sol: 73 ordenes, $20929
+9- Classic Cafe: 69 ordenes, $20926
+10- La Bella Notte: 73 ordenes, $20667
+11- Sunset Grill: 74 ordenes, $20664
+12- The Bee: 80 ordenes, $20635
+13- The Spot: 64 ordenes, $20588
+14- The Harvest: 79 ordenes, $20509
+15- The Trendy eatery: 69 ordenes, $20438
+16- La Parrilla Argentina: 71 ordenes, $20428
+17- La Francesa: 79 ordenes, $20378
+18- The elegant Bistro: 65 ordenes, $20342
+19- The Not Italian Bistro: 67 ordenes, $20135
+20- La Furia: 73 ordenes, $19979
+21- La Cocina de Alicia: 65 ordenes, $19940
+22- El Sabor del Pueblo: 82 ordenes, $19907
+23- Las salsas: 67 ordenes, $19866
+24- The Harvest House: 71 ordenes, $19864
+25- The Village: 62 ordenes, $19798
+26- El Restaurante de la Plaza: 68 ordenes, $19556
+27- La Cocina del Chef: 76 ordenes, $19518
+28- El Sazon Mexicano: 71 ordenes, $19482
+29- Brunch & Mimosas: 65 ordenes, $19434
+30- Casa de las empanadas: 64 ordenes, $19411
+31- The Rustic Spoon: 70 ordenes, $19376
+32- Here and Now: 66 ordenes, $19287
+33- El Restaurante de Ana: 69 ordenes, $19277
+34- El Rincon del Chef: 64 ordenes, $19253
+35- The Classic: 60 ordenes, $19241
+36- The Food Haven: 66 ordenes, $19187
+37- The Savory: 67 ordenes, $19147
+38- The Gourmet Lala: 66 ordenes, $19133
+39- The Modern: 58 ordenes, $19103
+40- The Bistro Spot: 64 ordenes, $19099
+41- La Pasticceria: 61 ordenes, $19016
+42- The Countryside: 64 ordenes, $18990
+43- The Main: 63 ordenes, $18893
+44- The Lakeside Bistro: 67 ordenes, $18863
+45- Dos hermanos: 61 ordenes, $18758
+46- El Cafe de la Plaza: 66 ordenes, $18752
+47- The Old Mill: 59 ordenes, $18706
+48- The Cafe Lounge: 68 ordenes, $18698
+49- El Rincon: 64 ordenes, $18678
+50- Parkside Grill: 67 ordenes, $18660
+51- The Waterfront: 65 ordenes, $18602
+52- The Urban Bistro: 64 ordenes, $18575
+53- Bistro Boulevard: 60 ordenes, $18554
+54- The Lounge: 69 ordenes, $18521
+55- The Fine Dining: 67 ordenes, $18452
+56- El Rinconcito Tropical: 59 ordenes, $18414
+57- El Rincon del Gourmet: 72 ordenes, $18365
+58- The Seafood Shack: 66 ordenes, $18324
+59- La Terraza del Mar: 62 ordenes, $18211
+60- Marthas: 70 ordenes, $18150
+61- La Terraza del Chef: 56 ordenes, $18110
+62- El Cafe de la Abuela: 70 ordenes, $18100
+63- Ana: 60 ordenes, $18051
+64- El Marisco Feliz: 68 ordenes, $18017
+65- La Comida Casera: 60 ordenes, $17815
+66- The Greenhouse Cafe: 66 ordenes, $17731
+67- La Taqueria de la esquina: 59 ordenes, $17727
+68- The Trendy Cafe: 67 ordenes, $17724
+69- The Urban: 62 ordenes, $17701
+70- El Sabor: 59 ordenes, $17695
+71- The Corner Place: 62 ordenes, $17656
+72- The eatery: 65 ordenes, $17501
+73- El Pueblo: 61 ordenes, $17466
+74- The House: 64 ordenes, $17463
+75- La Cantina de Juan: 59 ordenes, $17428
+76- El Cafe del Chef Pablo: 62 ordenes, $17418
+77- The elegant Kitchen: 62 ordenes, $17377
+78- La Internacional: 61 ordenes, $17307
+79- El Cafe del Valle: 58 ordenes, $17300
+80- El Asador de la Abuela: 60 ordenes, $17300
+81- La Abuela: 59 ordenes, $17209
+82- El dragon: 66 ordenes, $17187
+83- La Cocina de Pablo: 59 ordenes, $17097
+84- Tierra y Mar: 63 ordenes, $17000
+85- El Valle: 58 ordenes, $16984
+86- El Otro Rincon: 59 ordenes, $16976
+87- Cocina Miguel: 56 ordenes, $16939
+88- La Taberna del Chef: 58 ordenes, $16937
+89- La Cocina: 63 ordenes, $16861
+90- Sabor a Mar: 60 ordenes, $16843
+91- El Barzon: 62 ordenes, $16827
+92- La Rosticeria: 60 ordenes, $16821
+93- Ocean: 63 ordenes, $16812
+94- La esquina del Taco: 68 ordenes, $16768
+95- The Garden Table: 59 ordenes, $16729
+96- El Mar: 61 ordenes, $16640
+97- The Farm-to-Table: 61 ordenes, $16582
+98- The Gourmet Deli: 63 ordenes, $16560
+99- The Chic Bistro: 60 ordenes, $16542
+100- The Caffeine Spot: 67 ordenes, $16449
+101- The Farmhouse Cafe: 57 ordenes, $16414
+102- Don Perfecto: 62 ordenes, $16395
+103- La Cabana: 63 ordenes, $16383
+104- La esquina del Chef: 61 ordenes, $16306
+105- El Jardin de los Sabores: 57 ordenes, $16234
+106- The Old Town: 53 ordenes, $16147
+107- The Green Room: 54 ordenes, $16139
+108- La Cocina de la Abuela: 58 ordenes, $16125
+109- La Taberna: 65 ordenes, $16117
+110- El Patio Andaluz: 55 ordenes, $15986
+111- The Modern Palate: 60 ordenes, $15967
+112- La Casa del Sabor: 65 ordenes, $15963
+113- Harbor Lights Restaurant: 51 ordenes, $15801
+114- The Wine Cellar: 56 ordenes, $15800
+115- El Mercado del Pueblo: 56 ordenes, $15745
+116- El Fogon de la Abuela: 60 ordenes, $15735
+117- The Rustic: 50 ordenes, $15710
+118- Los Rincones: 67 ordenes, $15638
+119- El Cafe del Jardin: 61 ordenes, $15626
+120- La Brasserie Gourmet: 52 ordenes, $15559
+121- The Bistro at Sunset: 56 ordenes, $15551
+122- The Chic Restaurant: 53 ordenes, $15506
+123- el Cafe del Centro: 54 ordenes, $15402
+124- La Brasserie Parisienne: 60 ordenes, $15350
+125- El Cafe de Lola: 52 ordenes, $15344
+126- The Park: 55 ordenes, $15306
+127- The Trendy Table: 57 ordenes, $15292
+128- The Local Bistro: 50 ordenes, $15249
+129- El Grande: 54 ordenes, $15221
+130- The elegant eatery: 48 ordenes, $15049
+131- The Farmhouse: 61 ordenes, $15010
+132- The Mediterranean Table: 57 ordenes, $14958
+133- Delicias del Valle: 55 ordenes, $14900
+134- Bosque Real: 51 ordenes, $14799
+135- La Terraza del Valle: 61 ordenes, $14734
+136- The Classic Diner: 58 ordenes, $14641
+137- Rios: 51 ordenes, $14575
+138- The Artisan Table: 57 ordenes, $14500
+139- Los Sabores de Aqui: 55 ordenes, $14376
+140- The Urban Table: 50 ordenes, $14339
+141- The Taste: 55 ordenes, $14303
+142- Los Garcia: 49 ordenes, $14182
+143- El Jabali: 56 ordenes, $14181
+144- The Cafe Bistro: 55 ordenes, $14171
+145- El Uro: 51 ordenes, $14148
+146- Sabores del Mundo: 58 ordenes, $14115
+147- The Rustic Table: 53 ordenes, $14085
+148- Skyline Diner: 49 ordenes, $14076
+149- El Nuevo Cafe: 49 ordenes, $14049
+150- The Table: 53 ordenes, $13971
+151- La Plaza de las Tapas: 51 ordenes, $13958
+152- La Cocina de Mama: 51 ordenes, $13931
+153- La Trattoria Bella: 55 ordenes, $13842
+154- El Restaurante de la esquina: 49 ordenes, $13738
+155- Por la Playa: 53 ordenes, $13653
+156- El Rincon Gourmet: 48 ordenes, $13098
+157- La Terraza: 55 ordenes, $13056
+158- El Rincon del Mar: 52 ordenes, $13019
+159- The Modern eatery: 49 ordenes, $12752
+160- The New: 46 ordenes, $12421
+161- La Cocina del Mercado: 44 ordenes, $12402
+162- The Southern Grill: 46 ordenes, $11955
+163- The other place: 45 ordenes, $11842
