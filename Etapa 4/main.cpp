@@ -411,6 +411,35 @@ void List<T>::showListReverse(){
 	cout << endl;
 }
 
+// Funcion para obtener la fecha de una orden
+// Complejidad: O(1)
+string get_date(string order){
+    string date;
+
+    // Encuentra los indices en los que inicia y termina la fecha
+    int date_end_index = order.find(" R:");
+
+    // Extrae la fecha
+    date = order.substr(0, date_end_index);
+
+    return date;
+}
+
+// Funcion para obtener las coordenadas de un restaurante o lugar de entrega
+// Complejidad: O(1)
+string get_coordinates(string place){
+    string coordinates;
+
+    // Encuentra los indices en los que inicia y termina las coordenadas
+    int coordinates_start_index = place.rfind(" (");
+    int coordinates_end_index = place.rfind(")");
+
+    // Extrae las coordenadas
+    coordinates = place.substr(coordinates_start_index + 1, coordinates_end_index - coordinates_start_index + 1);
+
+    return coordinates;
+}
+
 // Funcion para obtener la ganancia de una orden
 // Complejidad: O(1)
 float get_revenue(string order){
@@ -450,6 +479,72 @@ string get_dish(string order){
     dish = order.substr(dish_start_index + 2, dish_end_index - dish_start_index - 2);
 
     return dish;
+}
+
+// Algoritmo de Dijkstra para encontrar el camino mas corto entre dos nodos
+// Complejidad O((V + E) log V)
+void dijkstra(int **matrix, List<string> posiciones, string start, string end, int N){
+    // Arreglo para guardar la distancia mas corta entre el nodo de inicio y los demas nodos
+    int *dist = (int *) calloc(N, sizeof(int));
+
+    // Arreglo para guardar si el nodo ya fue visitado
+    bool *visited = (bool *) calloc(N, sizeof(bool));
+
+    // Arreglo para guardar predescesores
+    int *pred = (int *) calloc(N, sizeof(int));
+
+    // Inicia las distancias en infinito y los nodos como no visitados
+    for(int i = 0; i < N; i++){
+        dist[i] = INT_MAX;
+        visited[i] = false;
+    }
+
+    // Indices de las posiciones de inicio y fin
+    int start_index = posiciones.find(start);
+    int end_index = posiciones.find(end);
+
+    // La distancia del nodo de inicio a si mismo es 0
+    dist[start_index] = 0;
+
+    // Encuentra el camino mas corto
+    for(int i = 0; i < N - 1; i++){
+        // Encuentra el nodo con la distancia mas corta
+        int min = INT_MAX;
+        int min_index;
+
+        for(int j = 0; j < N; j++){
+            if(visited[j] == false && dist[j] <= min){
+                min = dist[j];
+                min_index = j;
+            }
+        }
+
+        // Marca el nodo como visitado
+        visited[min_index] = true;
+
+        // Actualiza la distancia de los nodos adyacentes
+        for(int j = 0; j < N; j++){
+            if(!visited[j] && matrix[min_index][j] && dist[min_index] != INT_MAX && dist[min_index] + matrix[min_index][j] < dist[j]){
+                dist[j] = dist[min_index] + matrix[min_index][j];
+                pred[j] = min_index;
+            }
+        }
+    }
+
+    // Muestra la distancia mas corta
+    cout << "La distancia mas corta entre " << posiciones.get(start_index) << " y " << posiciones.get(end_index) << " es: " << dist[end_index] << endl;
+
+    // Muestra el camino mas corto
+    cout << "Camino mas corto: " << posiciones.get(end_index) << " ";
+    int j = end_index;
+    int num_aristas = 0;
+    while(j != start_index){
+        cout << posiciones.get(pred[j]) << " ";
+        j = pred[j];
+        num_aristas++;
+    }
+
+    cout << endl << "Numero de aristas: " << num_aristas << endl;
 }
 
 
@@ -527,7 +622,9 @@ int main(int argc, char* argv[]){
                 // cout << "a: " << a << " b: " << b << endl;
 
                 // Agrega la relacion entre restaurantes y platos a la matriz de adyacencia
+                // Agrega el precio del plato
                 menus_matrix[a][b] = revenue;
+                // Agrega la existencia del plato en el restaurante
                 menus_matrix[b][a] = 1;
             }
         }
@@ -564,6 +661,7 @@ int main(int argc, char* argv[]){
             getline(cin >> ws, restaurant);
             cout << endl;
 
+            // Obtiene el indice del restaurante en la lista de datos
             restaurant_index = datos.find(restaurant);
 
             cout << "---------------------------------" << endl;
@@ -571,6 +669,7 @@ int main(int argc, char* argv[]){
             cout << "---------------------------------" << endl;
             cout << endl;
 
+            // Muestra los platos que ofrece el restaurante (espacios donde hay un precio)
             for(i = 0; i < N; i++){
                 if(menus_matrix[restaurant_index][i] != 0){
                     cout << "Plato: " << datos.get(i) << " (Precio: " << menus_matrix[restaurant_index][i] << ")" << endl;
@@ -584,7 +683,8 @@ int main(int argc, char* argv[]){
             cout << "Seleccione un plato: ";
             getline(cin >> ws, dish);
             cout << endl;
-
+            
+            // Obtiene el indice del plato en la lista de datos
             dish_index = datos.find(dish);
 
             cout << "-----------------------------------------------" << endl;
@@ -592,6 +692,7 @@ int main(int argc, char* argv[]){
             cout << "-----------------------------------------------" << endl;
             cout << endl;
 
+            // Muestra los restaurantes que ofrecen el plato (espacios donde haya un 1)
             for(i = 0; i < N; i++){
                 if(menus_matrix[dish_index][i] == 1){
                     cout << "Restaurante: " << datos.get(i) << " (Precio: " << menus_matrix[i][dish_index] << ")" << endl;
@@ -599,5 +700,124 @@ int main(int argc, char* argv[]){
             }
 
             break;
+
+        default:
+            cout << "Opcion invalida" << endl;
+            break;
+    }
+
+    // Lista de posiciones de la ciudad
+    List<string> city_positions;
+
+    // Variables para la matriz de adyacencia de la ciudad
+    string coord;
+    int **city_matrix;
+    N = 961;
+
+    // Matriz de adyacencia para representar la ciudad
+    if(city30x30.is_open()){
+        // Crea la matriz de adyacencia
+        city_matrix = (int **) calloc (N, sizeof(int*));
+
+        for(j = 0; j < N; j++){
+            city_matrix[j] = (int *) calloc(N, sizeof(int));
+        }
+
+        // Lee cada linea del archivo de la ciudad
+        // Formato de linea (0, 0) (1, 0) 50 (nodo1, nodo2, peso)
+        while(getline(city30x30, coord)){
+            // Obtiene los nodos y el peso
+            int index = coord.find(")");
+            aux = coord.substr(0, index + 1);
+            // cout << "aux: " << aux << endl;
+            
+            coord = coord.substr(index + 1);
+            index = coord.find(")");
+            string aux2 = coord.substr(1, index);
+            // cout << "aux2: " << aux2 << endl;
+
+            coord = coord.substr(index + 2);
+            int w = stoi(coord);
+            // cout << "w: " << w << endl;
+
+            // Agrega los nodos a la lista de posiciones si no estan ya en ella
+            if(city_positions.find(aux) == -1){
+                city_positions.insertLast(aux);
+            }
+
+            if(city_positions.find(aux2) == -1){
+                city_positions.insertLast(aux2);
+            }
+
+            a = city_positions.find(aux);
+            b = city_positions.find(aux2);
+
+            // Agrega la relacion entre nodos a la matriz de adyacencia
+            city_matrix[a][b] = w;
+            city_matrix[b][a] = w;
+        }
+    }
+
+    city30x30.close();
+
+    // Matriz de adyacencia de la ciudad, cambiar N para ver una parte de la matriz
+    // cout << "City30x30" << endl;
+    // for(i = 0; i < 10; i++){
+    //     for(j = 0; j < 10; j++){
+    //         cout << city_matrix[i][j] << " ";
+    //     }
+    //     cout << endl;
+    // }
+
+    cout << endl << "Rutas" << endl;
+
+    // Listas para almacenar los restaurantes y sus posiciones
+    List<string> restaurants;
+    List<string> restaurant_positions;
+    int index;
+
+    // Lee cada linea del archivo de los restaurantes
+    while(getline(restaPlaces, rest)){
+        index = rest.find(" (");
+        restaurant = rest.substr(0, index);
+
+        // Agrega los restaurantes y sus posiciones a las listas
+        restaurants.insertLast(restaurant);
+        restaurant_positions.insertLast(get_coordinates(rest));
+    }
+
+    // Variables para los casos de prueba
+    i = 1;
+    string position;
+    string end_position;
+    string date;
+
+    // Lee cada linea del archivo de las ordenes
+    while(getline(orders, rest)){
+        // Extrae la informacion de la orden
+        restaurant = get_restaurant(rest);
+        end_position = get_coordinates(rest);
+        dish = get_dish(rest);
+        date = get_date(rest);
+
+        // Obtiene el indice del restaurante en la lista de restaurantes
+        index = restaurants.find(restaurant);
+
+        // Obtiene la posicion del restaurante
+        position = restaurant_positions.get(index);
+
+        cout << "Caso de prueba " << i << endl;
+        cout << "---------------" << endl;
+        cout << "Orden: " << dish << endl;
+        cout << "Fecha: " << date << endl;
+        cout << "Restaurante de entrega: " << restaurant << " " << position << endl;
+        cout << "Lugar de entrega: " << end_position << endl;
+
+        // Obtiene el camino mas corto entre el restaurante y el lugar de entrega
+        dijkstra(city_matrix, city_positions, position, end_position, N);
+
+        cout << endl;
+
+        i++;
     }
 }
