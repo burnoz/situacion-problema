@@ -339,8 +339,6 @@ int main(int argc, char* argv[]){
                 // Agrega la relacion entre restaurantes y platos a la matriz de adyacencia
                 // Agrega el precio del plato
                 menus_matrix[a][b] = revenue;
-                // Agrega la existencia del plato en el restaurante
-                menus_matrix[b][a] = 1;
             }
         }
     }
@@ -409,7 +407,7 @@ int main(int argc, char* argv[]){
 
             // Muestra los restaurantes que ofrecen el plato (espacios donde haya un 1)
             for(i = 0; i < N; i++){
-                if(menus_matrix[dish_index][i] == 1){
+                if(menus_matrix[i][dish_index] != 0){
                     cout << "Restaurante: " << datos.get(i) << " (Precio: " << menus_matrix[i][dish_index] << ")" << endl;
                 }
             }
@@ -427,7 +425,7 @@ int main(int argc, char* argv[]){
     // Variables para la matriz de adyacencia de la ciudad
     string coord;
     int **city_matrix;
-    N = 961; // 31 ^ 31
+    N = 900; // max: (29, 29)
 
     // Matriz de adyacencia para representar la ciudad
     if(city30x30.is_open()){
