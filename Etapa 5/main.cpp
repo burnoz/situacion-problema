@@ -238,38 +238,24 @@ class Hash{
             }
 		}
 
-		void show();				// Ver toda la tabla
-        void show2();               // Ver los espacios ocupados
+        void show();               // Ver los espacios ocupados
 		void insert(string, T);		// Agregar un elemento nuevo, recibe key y value
 		void remove(string);		// Remover uno por su key
         void update(string, T);     // Cambia el valor de una llave
 		int find(string);			// Encontrar el indice de una key
 };
 
-
-template<class T> 
-void Hash<T>::show(){	
-    int j;
-
-	// Muestra toda la tabla, su indice, char_key, int_key, int_key real y valor almacenado
-	for (j =0; j < maxSize; j++){	
-        cout << j << " " << table[j]->str_key << " " << table[j]->int_key << " " << table[j]->h_key << " " << table[j]->item << endl; 	
-    }
-	
-    cout << endl << endl;
-}
-
 // Muestra los espacios ocupados en la tabla
 // Complejidad: O(n)
 template<class T> 
-void Hash<T>::show2(){	
+void Hash<T>::show(){	
     int j;
     int k = 1;
 
 	// Muestra toda la tabla, su indice, char_key, int_key, int_key real y valor almacenado
 	for(j = 0; j < maxSize; j++){	
         if(table[j]->free == false){
-            cout << k << ". " << table[j]->str_key << "\nPrecio: $" << table[j]->item << endl << endl;
+            cout << k << ". " << table[j]->str_key << " (Precio: $" << table[j]->item << ")" << endl;
             k++;
         }
     }
@@ -422,17 +408,121 @@ int Hash<T>::find(string str_key) {
     return -1;
 }
 
+// Algoritmo de Dijkstra para encontrar el camino mas corto entre dos nodos
+// Complejidad O((V + E) log V)
+List<string> dijkstra(int **matrix, List<string> posiciones, string start, Hash<string> res_positions, int N){
+    // Arreglo para guardar la distancia mas corta
+    int *dist = (int *) calloc(N, sizeof(int));
+
+    // Arreglo para guardar si el nodo ya fue visitado
+    bool *visited = (bool *) calloc(N, sizeof(bool));
+
+    // Arreglo para guardar predescesores
+    int *pred = (int *) calloc(N, sizeof(int));
+
+    // Inicia las distancias en infinito y los nodos como no visitados
+    for(int i = 0; i < N; i++){
+        dist[i] = INT_MAX;
+        visited[i] = false;
+    }
+
+    // Indice de las posicion de inicio
+    int start_index = posiciones.find(start);
+
+    // La distancia del nodo de inicio a si mismo es 0
+    dist[start_index] = 0;
+
+    // Encuentra el camino mas corto
+    for(int i = 0; i < N - 1; i++){
+        int min = INT_MAX;
+        int min_index;
+
+        for(int j = 0; j < N; j++){
+            if(visited[j] == false && dist[j] <= min){
+                min = dist[j];
+                min_index = j;
+            }
+        }
+
+        // Marca el nodo como visitado
+        visited[min_index] = true;
+
+        // Actualiza la distancia de los nodos adyacentes
+        for(int j = 0; j < N; j++){
+            if(!visited[j] && matrix[min_index][j] && dist[min_index] != INT_MAX && dist[min_index] + matrix[min_index][j] < dist[j]){
+                dist[j] = dist[min_index] + matrix[min_index][j];
+                pred[j] = min_index;
+            }
+        }
+    }
+
+    // Lista de restaurantes mas cercanos
+    List<string> closest;
+
+    string min1 = "";
+    string min2 = "";
+    string min3 = "";
+
+    int min1_index = -1;
+    int min2_index = -1;
+    int min3_index = -1;
+
+    // Encuentra los 3 restaurantes mas cercanos
+    for(int i = 0; i < res_positions.maxSize; i++){
+        if(res_positions.table[i]->free == false){
+            string coordinates = res_positions.table[i]->item;
+            int index = posiciones.find(coordinates);
+
+            if(dist[index] < dist[min1_index] || min1_index == -1){
+                min3 = min2;
+                min3_index = min2_index;
+
+                min2 = min1;
+                min2_index = min1_index;
+
+                min1 = res_positions.table[i]->str_key;
+                min1_index = index;
+            }
+
+            else if(dist[index] < dist[min2_index] || min2_index == -1){
+                min3 = min2;
+                min3_index = min2_index;
+
+                min2 = res_positions.table[i]->str_key;
+                min2_index = index;
+            }
+
+            else if(dist[index] < dist[min3_index] || min3_index == -1){
+                min3 = res_positions.table[i]->str_key;
+                min3_index = index;
+            }
+        }
+    }
+
+    cout << "Restaurantes mas cercanos a la posicion " << start << endl;
+    cout << "1. " << min1 << " a " << dist[min1_index] << " metros" << endl;
+    cout << "2. " << min2 << " a " << dist[min2_index] << " metros" << endl;
+    cout << "3. " << min3 << " a " << dist[min3_index] << " metros" << endl;
+    
+    closest.insertLast(min1);
+    closest.insertLast(min2);
+    closest.insertLast(min3);
+
+    return closest;   
+}
+
 
 int main(int argc, char* argv[]){
     // Archivos de entrada
     ifstream menus("menus.txt");
     ifstream city30x30("city30x30.txt");
     ifstream restaPlaces("restaPlaces.txt");
-    ifstream orders("orders-city30x30.txt");
 
     // Hash que guarda un hash de platos y su precio para cada restaurante
-    Hash<Hash<int>*> restaurants(9973);
-    Hash<Hash<int>*> dishes(9973);
+    Hash<Hash<int>*> restaurants(239);
+
+    // Hash que guarda un hash de restaurantes y su precio para cada plato
+    Hash<Hash<int>*> dishes(3911);
 
     // Variables para leer los archivos
     string line;
@@ -475,7 +565,7 @@ int main(int argc, char* argv[]){
                 if(index == -1){
                     // cout << "Insertando platillo: " << dish << endl;
 
-                    Hash<int> *inner_hash = new Hash<int>(9973);
+                    Hash<int> *inner_hash = new Hash<int>(3643);
                     inner_hash->insert(restaurant, price);
                     dishes.insert(dish, inner_hash);
                 }
@@ -488,15 +578,16 @@ int main(int argc, char* argv[]){
         }
     }
 
-    cout << "Menus" << endl;
+    cout << "Opciones" << endl;
     cout << "1- Busqueda del menu de un restaurante en especifico" << endl;
     cout << "2- Busqueda de restaurantes que ofrecen un plato en especifico" << endl;
+    cout << "3- Continuar" << endl;
     cout << "> ";
     int option;
     cin >> option;
     cout << endl;
 
-        switch(option){
+    switch(option){
         case 1:
             cout << "Menu de un restaurante en especifico" << endl;
             cout << "Seleccione un restaurante: ";
@@ -512,7 +603,7 @@ int main(int argc, char* argv[]){
             cout << endl;
 
             // Muestra los platos que ofrece el restaurante
-            restaurants.table[index]->item->show2();
+            restaurants.table[index]->item->show();
 
             break;
 
@@ -531,8 +622,11 @@ int main(int argc, char* argv[]){
             cout << endl;
 
             // Muestra los restaurantes que ofrecen el plato
-            dishes.table[index]->item->show2();
+            dishes.table[index]->item->show();
 
+            break;
+
+        case 3:
             break;
 
         default:
@@ -609,4 +703,66 @@ int main(int argc, char* argv[]){
     //     cout << endl;
     // }
 
+    // Hash de restaurantes y sus coordenadas
+    Hash<string> restaurant_coordinates(239);
+
+    // Lee el archivo de restaurantes y sus coordenadas
+    if(restaPlaces.is_open()){
+        while(getline(restaPlaces, coord)){
+            // Obtiene el nombre del restaurante y sus coordenadas
+            index = coord.find(" (");
+            restaurant = coord.substr(0, index);
+            string coordinates = get_coordinates(coord);
+
+            // Inserta el restaurante y sus coordenadas en el hash
+            restaurant_coordinates.insert(restaurant, coordinates);
+        }
+    }
+
+    restaPlaces.close();
+
+    // Busqueda de restaurantes cercanos
+    string start_position;
+    List<string> closest;
+
+    cout << "Busqueda de restaurantes cercanos" << endl;
+    cout << "Seleccione una posicion de inicio (formato: (0, 0)): ";
+    getline(cin >> ws, start_position);
+    cout << endl;
+
+    closest = dijkstra(city_matrix, city_positions, start_position, restaurant_coordinates, N);
+
+    cout << endl;
+    cout << "Consultar menu de los restaurantes" << endl;
+    cout << "1. Si" << endl;
+    cout << "2. No" << endl;
+    cout << "> "; 
+    cin >> option;
+
+    switch(option){
+        case 1:
+            cout << "Seleccione un restaurante de los encontrados: ";
+            cin >> option;
+            cout << endl;
+
+            // Obtiene el nombre del restaurante
+            restaurant = closest.get(option - 1);
+
+            cout << "---------------------------------" << endl;
+            cout << "Menu de " << restaurant << endl;
+            cout << "---------------------------------" << endl;
+            cout << endl;
+            
+            // Muestra el menu del restaurante
+            restaurants.table[restaurants.find(restaurant)]->item->show();
+
+            break;
+
+        case 2:
+            break;
+
+        default:
+            cout << "Opcion invalida" << endl;
+            break;
+    }
 }
