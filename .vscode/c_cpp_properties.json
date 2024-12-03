@@ -3,7 +3,6 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/modules/get_value.h",
                 "${workspaceFolder}/.vscode",
                 "${workspaceFolder}",
                 "${workspaceFolder}"
